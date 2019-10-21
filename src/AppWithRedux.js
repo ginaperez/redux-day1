@@ -12,11 +12,13 @@ function UserProfile(props) {
 function UserHeading(props) {
   return <div>
     <UserCard />
+    <UserName />
   </div>
 };
 
 function UserCard(props) {
   return <div>
+    <UserName />
     <UserName />
   </div>
 };
