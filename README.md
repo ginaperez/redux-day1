@@ -1,68 +1,88 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Redux - Concept
 
-## Available Scripts
+- Student can describe the role of redux
+- Student can describe the following vocab in the context of redux: Store, reducer, action, action builder, connect
+- Student can describe when to use Redux
 
-In the project directory, you can run:
+## Redux - Stores & Reducers
 
-### `yarn start`
+- Student can setup redux passing a store into a reducer
+- Student can create a reducer
+- Student can create and dispatch actions
+- Student can inititalize default state in a reducer
+- Student can update state in a reducer
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<img src="https://camo.githubusercontent.com/9de527b9432cc9244dc600875b46b43311918b59/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6d656469612d702e736c69642e65732f75706c6f6164732f3336343831322f696d616765732f323438343739302f415243482d5265647578322d657874656e6465642d7265616c2d6465636c657261746976652e676966"/>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<img src="https://camo.githubusercontent.com/8e97d05fcc88aa498fe610522c51da15161f687b/68747470733a2f2f656e637279707465642d74626e302e677374617469632e636f6d2f696d616765733f713d74626e3a414e64394763522d453874384d6658732d484d416b4772446d5746654a726b53565f5f755461477531595350704d54504f305a6558314237"/>
 
-### `yarn test`
+### Goal of Redux
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- To make a global state that any component can access regardless of how deeply nested in the component tree
 
-### `yarn build`
+- Prevent excessive props drilling
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Client side cache for server side data
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Store
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- An object that holds the application's state tree. There should only be a single store in a Redux app, as the composition happens on the reducer level
 
-### `yarn eject`
+```js
+const initialState = {
+    someState: {amount: 0, total: 0}
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Action:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- A plain object that represents an intention to change the state. Actions are the only way to get data in the store. Any data, whether from UI events, network callbacks, or other sources such as WebSockets needs to eventually be dispatched as actions.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```js
+{
+    type: "ADD",
+    payload: amount
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Reducer:
 
-## Learn More
+- A function that accepts an accumulation and a value and returns a new accumulation. They are used to reduce a collection of values down to a single value.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+function reducer(state = initialState, action) {
+    switch(action.type) {
+        case "ADD":
+            return {
+            ...state, 
+            someState: {...state.someState, amount: action.payload}
+            };
+        default:
+            return state;
+    }
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Dispatch Function
 
-### Code Splitting
+- A function that accepts an action or an async action; it then may or may not dispatch one or more actions to the store.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```js
+import store from '../store.js';
 
-### Analyzing the Bundle Size
+store.dispatch({payload: amount, type: "ADD"});
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Action Creator
 
-### Making a Progressive Web App
+- A function that creates an action
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```js
+myActionCreator(amount) {
+    return {
+        type: "ADD",
+        payload: amount
+    }
+}
+myActionCreator(200)
+```
